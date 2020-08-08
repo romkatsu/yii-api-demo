@@ -14,3 +14,8 @@
 
 Authorization is performed via the header X-Api-Key
 
+
+http://127.0.0.1:8080 web host
+
+http://127.0.0.1:8081 host for acceptance tests
+
