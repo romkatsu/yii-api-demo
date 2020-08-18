@@ -10,8 +10,6 @@ use App\Service\UserService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface as ResponseFactory;
-use Throwable;
-use JsonException;
 
 final class AuthController extends Controller
 {
@@ -26,16 +24,9 @@ final class AuthController extends Controller
         $this->userService = $userService;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param AuthForm $form
-     * @return ResponseInterface
-     * @throws BadRequestException
-     * @throws JsonException
-     */
     public function login(ServerRequestInterface $request, AuthForm $form): ResponseInterface
     {
-        $form->setAttributes($this->getDataFromJsonRequest($request));
+        $form->setAttributes($request->getParsedBody());
         if (!$form->validate()) {
             throw new BadRequestException($form->getFirstError());
         }
@@ -50,11 +41,6 @@ final class AuthController extends Controller
         );
     }
 
-    /**
-     * @return ResponseInterface
-     * @throws BadRequestException
-     * @throws Throwable
-     */
     public function logout(): ResponseInterface
     {
         $this->userService->logout();

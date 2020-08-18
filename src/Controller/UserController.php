@@ -28,9 +28,6 @@ final class UserController
         $this->userFormatter = $userFormatter;
     }
 
-    /**
-     * @return ResponseInterface
-     */
     public function index(): ResponseInterface
     {
         $dataReader = $this->userRepository->findAllOrderByLogin();
@@ -46,11 +43,6 @@ final class UserController
         );
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
-     * @throws NotFoundException
-     */
     public function view(ServerRequestInterface $request): ResponseInterface
     {
         /**

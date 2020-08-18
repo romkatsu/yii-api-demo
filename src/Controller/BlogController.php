@@ -7,7 +7,6 @@ namespace App\Controller;
 use App\Builder\PostBuilder;
 use App\Entity\Post;
 use App\Exception\BadRequestException;
-use App\Exception\NotFoundException;
 use App\Form\PostForm;
 use App\Formatter\PaginatorFormatter;
 use App\Formatter\PostFormatter;
@@ -58,12 +57,6 @@ final class BlogController extends Controller
         );
     }
 
-
-    /**
-     * @param Request $request
-     * @return Response
-     * @throws NotFoundException
-     */
     public function view(Request $request): Response
     {
         return $this->responseFactory->createResponse(
@@ -75,15 +68,9 @@ final class BlogController extends Controller
         );
     }
 
-    /**
-     * @param Request $request
-     * @param PostForm $form
-     * @return Response
-     * @throws BadRequestException
-     */
     public function create(Request $request, PostForm $form): Response
     {
-        $form->setAttributes($this->getDataFromJsonRequest($request));
+        $form->setAttributes($request->getParsedBody());
         if (!$form->validate()) {
             throw new BadRequestException($form->getFirstError());
         }
@@ -96,16 +83,9 @@ final class BlogController extends Controller
         return $this->responseFactory->createResponse();
     }
 
-    /**
-     * @param Request $request
-     * @param PostForm $form
-     * @return Response
-     * @throws BadRequestException
-     * @throws NotFoundException
-     */
     public function update(Request $request, PostForm $form): Response
     {
-        $form->setAttributes($this->getDataFromJsonRequest($request));
+        $form->setAttributes($request->getParsedBody());
         if (!$form->validate()) {
             throw new BadRequestException($form->getFirstError());
         }
