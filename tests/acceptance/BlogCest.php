@@ -130,8 +130,6 @@ final class BlogCest
 
     public function index(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
-
         $I->sendGET(
             '/blog/',
             [
@@ -164,7 +162,6 @@ final class BlogCest
 
     public function view(AcceptanceTester $I): void
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendGET('/blog/11');
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();

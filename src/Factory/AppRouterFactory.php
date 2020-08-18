@@ -28,6 +28,7 @@ class AppRouterFactory
             Group::create(null, $this->getRoutes())
                 ->addMiddleware(ExceptionMiddleware::class)
                 ->addMiddleware(FormatDataResponse::class)
+                ->addMiddleware(RequestBodyParser::class)
         );
 
         return new UrlMatcher(new RouteCollection($collector));
@@ -47,13 +48,11 @@ class AppRouterFactory
 
             Route::post('/blog/', [BlogController::class, 'create'])
                 ->name('blog/create')
-                ->addMiddleware(Auth::class)
-                ->addMiddleware(RequestBodyParser::class),
+                ->addMiddleware(Auth::class),
 
             Route::put('/blog/{id:\d+}', [BlogController::class, 'update'])
                 ->name('blog/update')
-                ->addMiddleware(Auth::class)
-                ->addMiddleware(RequestBodyParser::class),
+                ->addMiddleware(Auth::class),
 
             Route::get('/users/', [UserController::class, 'index'])
                 ->name('users/index')
@@ -64,8 +63,7 @@ class AppRouterFactory
                 ->addMiddleware(Auth::class),
 
             Route::post('/auth/', [AuthController::class, 'login'])
-                ->name('auth')
-                ->addMiddleware(RequestBodyParser::class),
+                ->name('auth'),
 
             Route::post('/logout/', [AuthController::class, 'logout'])
                 ->name('logout'),

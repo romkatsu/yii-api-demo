@@ -39,7 +39,6 @@ final class UserCest
             'X-Api-Key',
             'lev1ZsWCzqrMlXRI2sT8h4ApYpSgBMl1xf6D4bCRtiKtDqw6JN36yLznargilQ_rEJz9zTfcUxm53PLODCToF9gGin38Rd4NkhQPOVeH5VvZvBaQlUg64E6icNCubiAv'
         );
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendGET('/users/1');
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
@@ -64,7 +63,6 @@ final class UserCest
             'X-Api-Key',
             'lev1ZsWCzqrMlXRI2sT8h4ApYpSgBMl1xf6D4bCRtiKtDqw6JN36yLznargilQ_rEJz9zTfcUxm53PLODCToF9gGin38Rd4NkhQPOVeH5VvZvBaQlUg64E6icNCubiAv'
         );
-        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendGET('/users/1000');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
         $I->seeResponseIsJson();
