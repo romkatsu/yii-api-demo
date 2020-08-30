@@ -28,3 +28,5 @@ phpunit.phar
 
 package.json
 package-lock.json
+
+tests/_data/database.db_snapshot
