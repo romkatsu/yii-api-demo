@@ -30,6 +30,11 @@ final class PostForm extends Form
         return new PostStatus($this->status);
     }
 
+    public function formName(): string
+    {
+        return '';
+    }
+
     protected function rules(): array
     {
         return [

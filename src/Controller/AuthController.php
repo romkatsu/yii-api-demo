@@ -26,7 +26,8 @@ final class AuthController extends Controller
 
     public function login(ServerRequestInterface $request, AuthForm $form): ResponseInterface
     {
-        $form->setAttributes($request->getParsedBody());
+        $form->load($request->getParsedBody());
+
         if (!$form->validate()) {
             throw new BadRequestException($form->getFirstError());
         }

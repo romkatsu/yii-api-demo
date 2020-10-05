@@ -32,5 +32,5 @@ return [
     IdentityRepositoryInterface::class => UserRepository::class,
     ThrowableRendererInterface::class => JsonRenderer::class,
     ValidatorFactoryInterface::class => ValidatorFactory::class,
-    DataResponseFormatterInterface::class => ApiResponseFormatter::class
+    DataResponseFormatterInterface::class => ApiResponseFormatter::class,
 ];

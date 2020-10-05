@@ -16,6 +16,11 @@ final class AuthForm extends Form
         return $this->login;
     }
 
+    public function formName(): string
+    {
+        return '';
+    }
+
     public function getPassword(): string
     {
         return $this->password;

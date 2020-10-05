@@ -10,7 +10,7 @@ use App\Controller\SiteController;
 use App\Controller\UserController;
 use App\Middleware\ExceptionMiddleware;
 use Psr\Container\ContainerInterface;
-use Yiisoft\Auth\Middleware\Auth;
+use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\DataResponse\Middleware\FormatDataResponse;
 use Yiisoft\Request\Body\RequestBodyParser;
 use Yiisoft\Router\FastRoute\UrlMatcher;
@@ -48,19 +48,19 @@ class AppRouterFactory
 
             Route::post('/blog/', [BlogController::class, 'create'])
                 ->name('blog/create')
-                ->addMiddleware(Auth::class),
+                ->addMiddleware(Authentication::class),
 
             Route::put('/blog/{id:\d+}', [BlogController::class, 'update'])
                 ->name('blog/update')
-                ->addMiddleware(Auth::class),
+                ->addMiddleware(Authentication::class),
 
             Route::get('/users/', [UserController::class, 'index'])
                 ->name('users/index')
-                ->addMiddleware(Auth::class),
+                ->addMiddleware(Authentication::class),
 
             Route::get('/users/{id:\d+}', [UserController::class, 'view'])
                 ->name('users/view')
-                ->addMiddleware(Auth::class),
+                ->addMiddleware(Authentication::class),
 
             Route::post('/auth/', [AuthController::class, 'login'])
                 ->name('auth'),

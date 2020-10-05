@@ -70,7 +70,7 @@ final class BlogController extends Controller
 
     public function create(Request $request, PostForm $form): Response
     {
-        $form->setAttributes($request->getParsedBody());
+        $form->load($request->getParsedBody());
         if (!$form->validate()) {
             throw new BadRequestException($form->getFirstError());
         }
@@ -85,7 +85,7 @@ final class BlogController extends Controller
 
     public function update(Request $request, PostForm $form): Response
     {
-        $form->setAttributes($request->getParsedBody());
+        $form->load($request->getParsedBody());
         if (!$form->validate()) {
             throw new BadRequestException($form->getFirstError());
         }

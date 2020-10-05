@@ -10,6 +10,8 @@ use Yiisoft\Yii\Web\ServerRequestFactory;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+$_ENV['ENVIRONMENT'] = 'test';
+
 Builder::rebuild();
 
 $startTime = microtime(true);
@@ -17,10 +19,6 @@ $container = new Container(
     require Builder::path('web'),
     require Builder::path('providers')
 );
-
-
-var_dump($_ENV['ENVIRONMENT']);
-exit();
 
 $container = $container->get(ContainerInterface::class);
 $application = $container->get(Application::class);

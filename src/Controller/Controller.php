@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Yiisoft\Auth\Middleware\Auth;
+use Yiisoft\Auth\Middleware\Authentication;
 
 abstract class Controller
 {
@@ -15,7 +15,7 @@ abstract class Controller
         /**
          * @var User $identity
          */
-        $identity = $request->getAttribute(Auth::REQUEST_NAME);
+        $identity = $request->getAttribute(Authentication::class);
 
         return $identity;
     }

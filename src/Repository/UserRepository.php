@@ -35,7 +35,7 @@ final class UserRepository extends Select\Repository implements IdentityReposito
         return $this->findIdentityBy('id', $id);
     }
 
-    public function findIdentityByToken(string $token, string $type): ?IdentityInterface
+    public function findIdentityByToken(string $token, string $type = null): ?IdentityInterface
     {
         return $this->findIdentityBy('token', $token);
     }
