@@ -29,9 +29,7 @@ final class ExceptionMiddleware implements MiddlewareInterface
         } catch (ApplicationException $e) {
             return $this->dataResponseFactory->createResponse($e->getMessage(), $e->getCode());
         } catch (RequestValidationException $e) {
-            $errors = $e->getErrors();
-            $reset = reset($errors);
-            return $this->dataResponseFactory->createResponse(reset($reset), Status::BAD_REQUEST);
+            return $this->dataResponseFactory->createResponse($e->getFirstError(), Status::BAD_REQUEST);
         }
     }
 }
