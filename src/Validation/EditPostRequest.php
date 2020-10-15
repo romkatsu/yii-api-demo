@@ -2,55 +2,65 @@
 
 declare(strict_types=1);
 
-namespace App\Form;
+namespace App\Validation;
 
+use App\Entity\User;
 use App\Enum\PostStatus;
+use Yiisoft\Auth\Middleware\Authentication;
+use Yiisoft\RequestModel\RequestModel;
+use Yiisoft\RequestModel\ValidatableModelInterface;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\HasLength;
 use Yiisoft\Validator\Rule\Required;
 
-final class PostForm extends Form
+final class EditPostRequest extends RequestModel implements ValidatableModelInterface
 {
-    private ?string $title = null;
-    private ?string $text = null;
-    private ?int $status = null;
+    public function getId(): int
+    {
+        return (int)$this->getValue('attributes.id');
+    }
 
     public function getTitle(): string
     {
-        return $this->title;
+        return (string)$this->getValue('body.title');
     }
 
     public function getText(): string
     {
-        return $this->text;
+        return (string)$this->getValue('body.text');
     }
 
     public function getStatus(): PostStatus
     {
-        return new PostStatus($this->status);
+        return new PostStatus($this->getValue('body.status'));
     }
 
-    public function formName(): string
+    public function getUser(): User
     {
-        return '';
+        /**
+         * @var User $identity
+         */
+        $identity = $this->getValue('attributes.' . Authentication::class);
+
+        return $identity;
     }
 
-    protected function rules(): array
+    public function getRules(): array
     {
         return [
-            'title' => [
+            'body.title' => [
                 new Required(),
                 (new HasLength())
                     ->min(5)
                     ->max(255)
             ],
-            'text' => [
+            'body.text' => [
                 new Required(),
                 (new HasLength())
                     ->min(5)
                     ->max(1000)
             ],
-            'status' => [
+            'body.status' => [
                 new Required(),
                 static function ($value): Result {
                     $result = new Result();

@@ -11,6 +11,12 @@
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/romkatsu/request-model.git"
+        }
+    ],
     "require": {
         "php": "^7.4",
         "cebe/markdown": "^1.2@dev",
@@ -42,6 +48,7 @@
         "yiisoft/log": "^3.0@dev",
         "yiisoft/log-target-file": "^3.0@dev",
         "yiisoft/request-body-parser": "^3.0@dev",
+        "yiisoft/request-model": "^3.0@dev",
         "yiisoft/router": "^3.0@dev",
         "yiisoft/router-fastroute": "^3.0@dev",
         "yiisoft/security": "^3.0@dev",

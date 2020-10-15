@@ -6,17 +6,17 @@ namespace App\Controller;
 
 use App\Builder\PostBuilder;
 use App\Entity\Post;
-use App\Exception\BadRequestException;
-use App\Form\PostForm;
 use App\Formatter\PaginatorFormatter;
 use App\Formatter\PostFormatter;
 use App\Repository\PostRepository;
 use App\Service\BlogService;
+use App\Validation\EditPostRequest;
+use App\Validation\ViewPostRequest;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 
-final class BlogController extends Controller
+final class BlogController
 {
     private DataResponseFactoryInterface $responseFactory;
     private PostRepository $postRepository;
@@ -57,42 +57,32 @@ final class BlogController extends Controller
         );
     }
 
-    public function view(Request $request): Response
+    public function view(ViewPostRequest $request): Response
     {
         return $this->responseFactory->createResponse(
             [
                 'post' => $this->postFormatter->format(
-                    $this->blogService->getPost((int)$request->getAttribute('id'))
+                    $this->blogService->getPost($request->getId())
                 )
             ]
         );
     }
 
-    public function create(Request $request, PostForm $form): Response
+    public function create(EditPostRequest $postRequest): Response
     {
-        $form->load($request->getParsedBody());
-        if (!$form->validate()) {
-            throw new BadRequestException($form->getFirstError());
-        }
-
-        $post = $this->postBuilder->build(new Post(), $form);
-        $post->setUser($this->getUserFromRequest($request));
+        $post = $this->postBuilder->build(new Post(), $postRequest);
+        $post->setUser($postRequest->getUser());
 
         $this->postRepository->save($post);
 
         return $this->responseFactory->createResponse();
     }
 
-    public function update(Request $request, PostForm $form): Response
+    public function update(EditPostRequest $postRequest): Response
     {
-        $form->load($request->getParsedBody());
-        if (!$form->validate()) {
-            throw new BadRequestException($form->getFirstError());
-        }
-
         $post = $this->postBuilder->build(
-            $this->blogService->getPost((int)$request->getAttribute('id')),
-            $form
+            $this->blogService->getPost($postRequest->getId()),
+            $postRequest
         );
 
         $this->postRepository->save($post);

@@ -44,6 +44,41 @@ final class BlogCest
         );
     }
 
+    public function createBadParams(AcceptanceTester $I): void
+    {
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->haveHttpHeader(
+            'X-Api-Key',
+            'lev1ZsWCzqrMlXRI2sT8h4ApYpSgBMl1xf6D4bCRtiKtDqw6JN36yLznargilQ_rEJz9zTfcUxm53PLODCToF9gGin38Rd4NkhQPOVeH5VvZvBaQlUg64E6icNCubiAv'
+        );
+
+        $I->sendPOST(
+            '/blog/',
+            [
+                'title' => 'test title',
+                'status' => 100
+            ]
+        );
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(
+            [
+                'status' => 'failed',
+                'error_message' => 'Value cannot be blank.',
+                'error_code' => 400,
+                'data' => null
+            ]
+        );
+
+        $I->dontSeeInDatabase(
+            'post',
+            [
+                'title' => 'test title',
+                'status' => 100
+            ]
+        );
+    }
+
     public function createBadAuth(AcceptanceTester $I): void
     {
         $I->haveHttpHeader('Content-Type', 'application/json');
