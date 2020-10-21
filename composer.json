@@ -77,7 +77,6 @@
         },
         "config-plugin-output-dir": "runtime/build/config",
         "config-plugin": {
-            "envs": ".env",
             "common": "config/common.php",
             "web": [
                 "$common",
