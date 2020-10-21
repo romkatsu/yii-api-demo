@@ -18,10 +18,6 @@ $container = new Container(
     require Builder::path('providers')
 );
 
-
-var_dump($_ENV['ENVIRONMENT']);
-exit();
-
 $container = $container->get(ContainerInterface::class);
 $application = $container->get(Application::class);
 
