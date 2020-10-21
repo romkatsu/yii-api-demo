@@ -88,6 +88,11 @@
             ],
             "providers": "config/providers.php",
             "events": "config/events.php"
+        },
+        "config-plugin-alternatives": {
+            "tests": {
+                "params": "config/params-test.php"
+            }
         }
     },
     "config": {

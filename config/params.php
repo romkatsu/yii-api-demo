@@ -5,7 +5,7 @@ use Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider;
 use Yiisoft\Yii\Cycle\Schema\Provider\SimpleCacheSchemaProvider;
 use Spiral\Database\Driver\SQLite\SQLiteDriver;
 
-$params = [
+return [
     'yiisoft/yii-debug' => [
         'enabled' => false,
     ],
@@ -49,9 +49,3 @@ $params = [
         ],
     ],
 ];
-
-if (isset($_ENV['ENVIRONMENT']) && $_ENV['ENVIRONMENT'] === 'test') {
-    return array_merge($params, require 'params-test.php');
-}
-
-return $params;
