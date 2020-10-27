@@ -7,7 +7,6 @@ services:
         working_dir: /app
         volumes:
             - ./:/app
-            - ~/.composer-docker/cache:/root/.composer/cache:delegated
     nginx:
         image: nginx:alpine
         container_name: yii-nginx

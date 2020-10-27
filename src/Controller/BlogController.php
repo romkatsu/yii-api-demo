@@ -11,9 +11,9 @@ use App\Formatter\PostFormatter;
 use App\Repository\PostRepository;
 use App\Service\BlogService;
 use App\Validation\EditPostRequest;
+use App\Validation\PageRequest;
 use App\Validation\ViewPostRequest;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 
 final class BlogController
@@ -38,12 +38,9 @@ final class BlogController
         $this->blogService = $blogService;
     }
 
-    public function index(Request $request, PaginatorFormatter $paginatorFormatter): Response
+    public function index(PageRequest $request, PaginatorFormatter $paginatorFormatter): Response
     {
-        $paginator = $this->blogService->getPosts(
-            $this->getPageQueryParam($request)
-        );
-
+        $paginator = $this->blogService->getPosts($request->getPage());
         $posts = [];
         foreach ($paginator->read() as $post) {
             $posts[] = $this->postFormatter->format($post);
@@ -88,15 +85,5 @@ final class BlogController
         $this->postRepository->save($post);
 
         return $this->responseFactory->createResponse();
-    }
-
-    private function getPageQueryParam(Request $request): int
-    {
-        $params = $request->getQueryParams();
-        if (isset($params['page'])) {
-            return (int)$params['page'];
-        }
-
-        return 1;
     }
 }
