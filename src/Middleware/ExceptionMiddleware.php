@@ -10,6 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\Http\Status;
+use Yiisoft\RequestModel\RequestValidationException;
 
 final class ExceptionMiddleware implements MiddlewareInterface
 {
@@ -26,6 +28,8 @@ final class ExceptionMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         } catch (ApplicationException $e) {
             return $this->dataResponseFactory->createResponse($e->getMessage(), $e->getCode());
+        } catch (RequestValidationException $e) {
+            return $this->dataResponseFactory->createResponse($e->getFirstError(), Status::BAD_REQUEST);
         }
     }
 }

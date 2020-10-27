@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Exception\BadRequestException;
-use App\Form\AuthForm;
 use App\Service\UserService;
+use App\Validation\AuthRequest;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface as ResponseFactory;
 
-final class AuthController extends Controller
+final class AuthController
 {
     private ResponseFactory $responseFactory;
     private UserService $userService;
@@ -24,19 +22,13 @@ final class AuthController extends Controller
         $this->userService = $userService;
     }
 
-    public function login(ServerRequestInterface $request, AuthForm $form): ResponseInterface
+    public function login(AuthRequest $request): ResponseInterface
     {
-        $form->load($request->getParsedBody());
-
-        if (!$form->validate()) {
-            throw new BadRequestException($form->getFirstError());
-        }
-
         return $this->responseFactory->createResponse(
             [
                 'token' => $this->userService->login(
-                    $form->getLogin(),
-                    $form->getPassword()
+                    $request->getLogin(),
+                    $request->getPassword()
                 )->getToken()
             ]
         );
